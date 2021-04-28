@@ -72,6 +72,24 @@ impl<'a> EndpointDescriptor<'a> {
         self.descriptor.bInterval
     }
 
+    /// Returns the endpoint's bRefresh (or None if not present)
+    pub fn refresh(&self) -> Option<u8> {
+        if self.descriptor.bLength > 7u8 {
+            Some(self.descriptor.bRefresh)
+        } else {
+            None
+        }
+    }
+
+    /// Returns the endpoint's bSynchAddress (or None if not present)
+    pub fn synch_address(&self) -> Option<u8> {
+        if self.descriptor.bLength > 8u8 {
+            Some(self.descriptor.bSynchAddress)
+        } else {
+            None
+        }
+    }
+
     /// Returns the unknown 'extra' bytes that libusb does not understand.
     pub fn extra(&'a self) -> Option<&'a [u8]> {
         unsafe {
